@@ -35,6 +35,31 @@ namespace WebApplication1.Controllers
         }
 
     
-    }
+    [HttpGet("{name}")]
+    public IActionResult GetByName(string name)
+        {
+            var student = students.FirstOrDefault(x => x.Name == name);
+            if(student == null) return NotFound("Student not Found");
+            return Ok(student);
+        }
+    [HttpPut("update/{name}")]
+    public IActionResult UpdateStudent(string name, Student dto)
+        {
+            var s= students.FirstOrDefault(x=> x.Name == name);
+            if(s==null) return NotFound();
+            s.Name= dto.Name;
+            s.Age= dto.Age;
 
+            return Ok(s);
+        }
+
+    [HttpDelete("delete/{name}")]
+    public IActionResult DeleteStudent(string name)
+        {
+            var s= students.FirstOrDefault(x=>x.Name== name);
+            if(s == null) return NotFound();
+            students.Remove(s);
+            return Ok("Deleted Succesfully");
+        }
+    }
 }
